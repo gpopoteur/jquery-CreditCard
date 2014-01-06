@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jquery-creditcard</title>
+</head>
+<body>
+	
+	<input type="text" class="creditcard" value="">
+	<button id="test">Test</button>
+	<span class="result">Click on <b>Test</b> button</span>
+
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="../src/jquery-creditcard.js"></script>
+	<script>
+		$(function() {
+			var creditcard 	= $('.creditcard').CreditCard(),
+				test 		= $('#test'),
+				result		= $('.result');
+
+			test.on('click', function (e) {
+				e.preventDefault();
+
+				if(creditcard.validate()){
+					result.html('Credit Card Number seems to be <b>valid</b>!');
+				}else{
+					result.html('Credit Card Number seems to be <b>INVALID</b>!');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
