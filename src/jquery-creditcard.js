@@ -19,6 +19,11 @@
 
 	// API
 	$.CreditCard.validateCard = function (str) {
+		// str cannot be blank
+		if(str == false){
+			return false;
+		}
+
 		// Remove dashes (if any)
 		var card = str.replace(/-/g, ''),
 			total = 0,
