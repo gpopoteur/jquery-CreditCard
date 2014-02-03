@@ -42,6 +42,17 @@ module.exports = function(grunt) {
 					ext: '.min.css'
 				}]
 			}
+		},
+		mochaTest: {
+			test: {
+				options: {
+					reporter: 'spec',
+					ui: 'bdd',
+					growl: true,
+					recursive: true
+				},
+				src: ['./test/*.js']
+			}
 		}
 	});
 
@@ -49,6 +60,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-newer');
 
 	// Stylesheets Tasks
@@ -62,6 +74,9 @@ module.exports = function(grunt) {
 
 	// Scripts Tasks
 	grunt.registerTask('js', ['lint', 'minify']);
+
+	// Test
+	grunt.registerTask('test', ['mochaTest']);
 
 	// Default task(s).
 	grunt.registerTask('default', ['js', 'stylesheets']);
