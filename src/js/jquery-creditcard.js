@@ -3,14 +3,62 @@
 (function($) {
 	'use strict';
 
-	var getCardType = function (elem) {
-		console.log(elem);
+	var element = {};
+
+	var type;
+
+	var cardTypes = [
+		{
+			type: 'visa',
+			regex: /^4/,
+			img: '' 
+		}
+	];
+
+	var setCreditCartType = function () {
+		
+	};
+
+	var removeCreditCardType = function () {
+		
+	};
+
+	var getCardType = function () {
+
+		if(type !== undefined){
+			// Test for current type
+			if(type.regex.test(element.val())){
+				return;
+			}
+
+			// If doesn't match, find the type
+			type = undefined;
+			removeCreditCardType();
+		}
+
+		// Matchs array
+		var result = [];
+
+		for (var i = cardTypes.length - 1; i >= 0; i--) {
+			var match = cardTypes[i].regex.test(element.val());
+			if(match){
+				result.push(cardTypes[i]);
+			}
+		}
+
+		// If there's only one match
+		// we have a winner
+		if(result.length === 1){
+			type = result[0];
+			setCreditCartType();
+		}
 	};
 
 	var CreditCardPlugin = function () {
 		var self = this;
+		element = $(this);
 
-		self.on('change', getCardType);
+		self.on('keyup', getCardType);
 
 		self.validate = function () {
 			return $.CreditCard.validateCard(self.val());
@@ -19,11 +67,11 @@
 		return self;
 	};
 
+	// API
 	if(!$.CreditCard){
 		$.CreditCard = {};
 	}
 
-	// API
 	$.CreditCard.validateCard = function (str) {
 		// str cannot be blank
 		if(str === undefined || str === ''){
@@ -71,4 +119,3 @@
 	};
 
 })(jQuery);
-

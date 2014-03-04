@@ -5,10 +5,10 @@ Plugin to test an input for a valid credit card number. So far there's only one 
 ## Usage
 
 ```
-var CreditCard = $('#credit-card').CreditCard();
+var creditCard = $('#credit-card').CreditCard();
 
 // Test for credit card validation
-if(CreditCard.validate()){
+if(creditCard.validate()){
     // Is Valid :)
 }else{
     // INVALID number :(

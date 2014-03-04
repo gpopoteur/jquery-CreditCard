@@ -53,11 +53,22 @@ module.exports = function(grunt) {
 				},
 				src: ['./test/*.js']
 			}
-		}
+		},
+	    watch: {
+	      js:  { 
+	        files: 'src/js/*.js', 
+	        tasks: [ 'js' ]
+	      },
+	      stylesheets:  { 
+	        files: 'src/css/*.styl', 
+	        tasks: [ 'stylesheets' ] 
+	      }
+	    }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-stylus');
+  	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-mocha-test');
