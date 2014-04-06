@@ -90,5 +90,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', ['mochaTest']);
 
 	// Default task(s).
-	grunt.registerTask('default', ['js', 'stylesheets']);
+	grunt.registerTask('default', ['test', 'js', 'stylesheets']);
 }

@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jquery-creditcard</title>
+	<link rel="stylesheet" type="text/css" href="../build/css/jquery-creditcard.css">
 </head>
 <body>
 	
-	<input type="text" class="creditcard" value="">
+	<input type="text" id="creditcard" value="">
 	<button id="test">Test</button>
 	<span class="result">Click on <b>Test</b> button</span>
 
@@ -14,14 +15,14 @@
 	<script src="../src/js/jquery-creditcard.js"></script>
 	<script>
 		$(function() {
-			var creditcard 	= $('.creditcard').CreditCard(),
+			var $creditcard	= $('#creditcard').CreditCard(),
 				test 		= $('#test'),
 				result		= $('.result');
 
 			test.on('click', function (e) {
 				e.preventDefault();
 
-				if(creditcard.validate()){
+				if($creditcard.validate()){
 					result.html('Credit Card Number seems to be <b>valid</b>!');
 				}else{
 					result.html('Credit Card Number seems to be <b>INVALID</b>!');

@@ -3,46 +3,77 @@
 (function($) {
 	'use strict';
 
-	var element = {};
+	var $element = {};
 
 	var type;
 
 	var cardTypes = [
 		{
+			type: 'amex',
+			regex: [
+			/^3[47][0-9]{13}$/
+			],
+			lengths: [15]
+		},
+		{
 			type: 'visa',
-			regex: /^4/,
-			img: '' 
-		}
+			regex: [
+			/^4[0-9]{12}(?:[0-9]{3})?$/
+			],
+			lengths: [16]
+		},
+		{
+			type: 'mastercard',
+			regex: [
+			/^5[1-5][0-9]{14}$/
+			],
+			lengths: [16]
+		},
 	];
 
-	var setCreditCartType = function () {
-		
+	var setCreditCardType = function () {
+		$element.addClass(type.type);
 	};
 
 	var removeCreditCardType = function () {
-		
+		$element.removeClass(type.type);
 	};
 
 	var getCardType = function () {
 
+		// Get Input String
+		var str = $element.val();
+		var str_length = str.length;
+
+		// Var definition
+		var test_regex;
+
 		if(type !== undefined){
 			// Test for current type
-			if(type.regex.test(element.val())){
-				return;
+			for (var k = 0; k < type.regex.length; k++) {
+				test_regex = type.regex[k];
+				if(test_regex.test(str)){
+					return;
+				}
 			}
 
 			// If doesn't match, find the type
-			type = undefined;
 			removeCreditCardType();
+			type = undefined;
 		}
 
 		// Matchs array
 		var result = [];
 
 		for (var i = cardTypes.length - 1; i >= 0; i--) {
-			var match = cardTypes[i].regex.test(element.val());
-			if(match){
-				result.push(cardTypes[i]);
+			if($.inArray(str_length, cardTypes[i].lengths) !== -1){
+				for (var j = 0; j < cardTypes[i].regex.length; j++) {
+					test_regex = cardTypes[i].regex[j];
+					var match = test_regex.test(str);
+					if(match){
+						result.push(cardTypes[i]);
+					}
+				}
 			}
 		}
 
@@ -50,14 +81,17 @@
 		// we have a winner
 		if(result.length === 1){
 			type = result[0];
-			setCreditCartType();
+			setCreditCardType();
 		}
 	};
 
 	var CreditCardPlugin = function () {
 		var self = this;
-		element = $(this);
+		$element = $(this);
 
+		// Set the credit card class
+		$element.addClass('credit-card');
+		
 		self.on('keyup', getCardType);
 
 		self.validate = function () {
@@ -80,8 +114,8 @@
 
 		// Remove dashes (if any)
 		var card = str.replace(/-/g, ''),
-			total = 0,
-			num = 0;
+		total = 0,
+		num = 0;
 
 		// Double every other digit to the right
 		for (var i = 0; i < card.length; i += 2) {
