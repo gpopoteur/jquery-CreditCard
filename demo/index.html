@@ -12,12 +12,20 @@
 	<span class="result">Click on <b>Test</b> button</span>
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="../src/js/jquery-creditcard.js"></script>
+	<script src="../build/js/jquery-creditcard.min.js"></script>
 	<script>
 		$(function() {
-			var $creditcard	= $('#creditcard').CreditCard(),
+			var $creditcard	= $('#creditcard').CreditCard(onValidCard, onNotValidCard),
 				test 		= $('#test'),
 				result		= $('.result');
+
+			function onValidCard (cardType) {
+				result.html('Credit Card Number seems to be <b>valid</b>! :)');
+			}
+
+			function onNotValidCard (cardType) {
+				result.html('Credit Card Number seems to be <b>INVALID</b>! :(');
+			}
 
 			test.on('click', function (e) {
 				e.preventDefault();

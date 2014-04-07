@@ -3,47 +3,66 @@
 (function($) {
 	'use strict';
 
+	// Credit Card Input
 	var $element = {};
+
+	// onValid & onNotValid Callbacks
+	var cbValid,
+	cbNotValid;
+
+	// Sting and String Length
+	var str = "";
+	var str_length = 0;
 
 	var type;
 
 	var cardTypes = [
-		{
-			type: 'amex',
-			regex: [
-			/^3[47][0-9]{13}$/
-			],
-			lengths: [15]
-		},
-		{
-			type: 'visa',
-			regex: [
-			/^4[0-9]{12}(?:[0-9]{3})?$/
-			],
-			lengths: [16]
-		},
-		{
-			type: 'mastercard',
-			regex: [
-			/^5[1-5][0-9]{14}$/
-			],
-			lengths: [16]
-		},
+	{
+		type: 'amex',
+		regex: [
+		/^3[47][0-9]+$/
+		],
+		lengths: [15]
+	},
+	{
+		type: 'visa',
+		regex: [
+		/^4[0-9]+/
+		],
+		lengths: [16]
+	},
+	{
+		type: 'mastercard',
+		regex: [
+		/^5[1-5][0-9]+$/
+		],
+		lengths: [16]
+	},
 	];
 
 	var setCreditCardType = function () {
 		$element.addClass(type.type);
+
+		if(cbValid !== undefined){
+			if($.inArray(str_length, type.lengths) !== -1 && $.CreditCard.validateCard(str)){
+				cbValid();
+			}
+		}
 	};
 
 	var removeCreditCardType = function () {
 		$element.removeClass(type.type);
+
+		if(cbNotValid !== undefined){
+			cbNotValid();
+		}
 	};
 
 	var getCardType = function () {
 
 		// Get Input String
-		var str = $element.val();
-		var str_length = str.length;
+		str = $element.val();
+		str_length = str.length;
 
 		// Var definition
 		var test_regex;
@@ -66,13 +85,11 @@
 		var result = [];
 
 		for (var i = cardTypes.length - 1; i >= 0; i--) {
-			if($.inArray(str_length, cardTypes[i].lengths) !== -1){
-				for (var j = 0; j < cardTypes[i].regex.length; j++) {
-					test_regex = cardTypes[i].regex[j];
-					var match = test_regex.test(str);
-					if(match){
-						result.push(cardTypes[i]);
-					}
+			for (var j = 0; j < cardTypes[i].regex.length; j++) {
+				test_regex = cardTypes[i].regex[j];
+				var match = test_regex.test(str);
+				if(match){
+					result.push(cardTypes[i]);
 				}
 			}
 		}
@@ -85,9 +102,12 @@
 		}
 	};
 
-	var CreditCardPlugin = function () {
+	var CreditCardPlugin = function (onValid, onNotValid) {
 		var self = this;
 		$element = $(this);
+
+		cbValid = onValid;
+		cbNotValid = onNotValid;
 
 		// Set the credit card class
 		$element.addClass('credit-card');
@@ -149,7 +169,7 @@
 
 	// jQuery Definition of the plugin
 	$.fn.CreditCard = function () {
-		return CreditCardPlugin.apply(this, Array.prototype.slice.call(arguments, 1));
+		return CreditCardPlugin.apply(this, Array.prototype.slice.call(arguments, 0));
 	};
 
 })(jQuery);
