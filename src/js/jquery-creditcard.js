@@ -52,10 +52,6 @@
 
 	var removeCreditCardType = function () {
 		$element.removeClass(type.type);
-
-		if(cbNotValid !== undefined){
-			cbNotValid();
-		}
 	};
 
 	var getCardType = function () {
@@ -84,15 +80,7 @@
 		// Matchs array
 		var result = [];
 
-		for (var i = cardTypes.length - 1; i >= 0; i--) {
-			for (var j = 0; j < cardTypes[i].regex.length; j++) {
-				test_regex = cardTypes[i].regex[j];
-				var match = test_regex.test(str);
-				if(match){
-					result.push(cardTypes[i]);
-				}
-			}
-		}
+		result = $.CreditCard.getCardType(str);
 
 		// If there's only one match
 		// we have a winner
@@ -125,6 +113,24 @@
 	if(!$.CreditCard){
 		$.CreditCard = {};
 	}
+
+	$.CreditCard.getCardType = function (str) {
+		var result = [];
+
+		var test_regex;
+
+		for (var i = cardTypes.length - 1; i >= 0; i--) {
+			for (var j = 0; j < cardTypes[i].regex.length; j++) {
+				test_regex = cardTypes[i].regex[j];
+				var match = test_regex.test(str);
+				if(match){
+					result.push(cardTypes[i]);
+				}
+			}
+		}
+
+		return result;
+	};
 
 	$.CreditCard.validateCard = function (str) {
 		// str cannot be blank

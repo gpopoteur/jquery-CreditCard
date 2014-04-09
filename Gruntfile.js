@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 					reporter: 'spec',
 					ui: 'bdd',
 					growl: true,
-					recursive: true
+					recursive: true,
 				},
 				src: ['./test/*.js']
 			}
