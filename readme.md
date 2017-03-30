@@ -12,7 +12,7 @@ To use the plugin first call the method of the plugin `CreditCard` on a jQuery o
 
 Note: before calling this callbacks some validations are made inside the plugin (check card length).
 
-```
+```js
 var $creditcard = $('#creditcard').CreditCard(onValidCard, onNotValidCard);
 
 function onValidCard (cardType) {
@@ -26,7 +26,7 @@ function onNotValidCard (cardType) {
 
 Anyway you could test the validity of the card calling the `validate` method of the object.
 
-```
+```js
 // Test for credit card validation
 if($creditCard.validate()){
     // Is Valid :)
@@ -37,7 +37,7 @@ if($creditCard.validate()){
 
 ## API
 
-```
+```js
 $.CreditCard.validateCard(str)
 ```
 
